@@ -5,9 +5,8 @@ import java.util.ArrayList;
 
 public class MonthlyReport {
     private final ArrayList<MRecord> rows = new ArrayList<>();
-
-    public MonthlyReport(String path){
-
+    // считывание входящего файла и добавление его данных в список
+    public void getMonthlyReport(String path){
         String content = readFileContentsOrNull(path);
         String[] lines = content.split("\r?\n");
         for(int i=1; i< lines.length; i++){
@@ -31,51 +30,47 @@ public class MonthlyReport {
         }
     }
 
-    // Расходы и доходы за каждый месяц
-    // Здесь неверная ссылка на значения month у экз. класса
-    public static void expensesMonth(YRecord yRecord, ArrayList<MRecord> rows) {
-        int expensesMonth = 0;
-        for (int m : yRecord.get(month)) {
-            for (MRecord row : rows) {
-                if (row.isExpense) {
-                    expensesMonth = (row.sumOfOne * row.quantity);
-                    System.out.println("Расходы за " + m + " месяц составили: " + expensesMonth);
-                }
-            }
-        }
+    // проверка, что месячный отчет не пустой
+    public boolean monthIsNotNull() {
+        return !rows.isEmpty();
     }
 
-    public static void incomesMonth(YRecord yRecord, ArrayList<MRecord> rows){
+    // расходы за месяц
+    public int expensesMonth() {
+        int expensesMonth = 0;
+        for (MRecord row : rows) {
+                if (row.isExpense) {
+                    expensesMonth = (row.sumOfOne*row.quantity);
+                }
+        }
+        return expensesMonth;
+    }
+
+    // доходы за месяц
+    public int incomesMonth(){
         int incomesMonth = 0;
-        for(int m : yRecord.get(month)){
             for(MRecord row : rows){
                 if(!row.isExpense){
                     incomesMonth = (row.sumOfOne*row.quantity);
-                    System.out.println("Доходы за "+m+" месяц составили: "+incomesMonth);
                 }
             }
-        }
+            return incomesMonth;
     }
 
     // Расходы и доходы за все месяцы
-    public static void expensesAllMonths(ArrayList<MRecord> rows){
+    public int expensesAllMonths(MonthlyReport monthlyReport1, MonthlyReport monthlyReport2, MonthlyReport monthlyReport3){
         int expensesAllMonths = 0;
-        for(MRecord row : rows){
-            if(row.isExpense){
-                expensesAllMonths += (row.sumOfOne*row.quantity);
-            }
-        }
-        System.out.println("Расходы за все месяцы составили: "+expensesAllMonths);
+        expensesAllMonths = monthlyReport1.expensesMonth() + monthlyReport2.expensesMonth() + monthlyReport3.expensesMonth();
+
+        return expensesAllMonths;
     }
 
-    public static void incomesAllMonths(ArrayList<MRecord> rows) {
+    // доход за все месяцы
+    public int incomesAllMonths(MonthlyReport monthlyReport1, MonthlyReport monthlyReport2, MonthlyReport monthlyReport3) {
         int incomesAllMonths = 0;
-        for (MRecord row : rows) {
-            if (!row.isExpense) {
-                incomesAllMonths += (row.sumOfOne * row.quantity);
-            }
-        }
-        System.out.println("Доходы за все месяцы составили: " + incomesAllMonths);
+        incomesAllMonths = monthlyReport1.incomesMonth()+monthlyReport2.incomesMonth()+monthlyReport3.incomesMonth();
+
+        return incomesAllMonths;
     }
 
     // Максимальная трата
@@ -126,17 +121,16 @@ public class MonthlyReport {
     }
 
     // вывести всю информацию о месяце
-    public static void printMonth(ArrayList<MRecord> rows) {
-        System.out.println("Информация о всех месячных отчётах:");
+    public void printMonth() {
 
         int income = 0;
         String product = "";
 
-        for (MRecord m : rows) {
-            if (!m.isExpense) {
-                if (m.quantity * m.sumOfOne > income) {
-                    income = m.quantity * m.sumOfOne;
-                    product = m.itemName;
+        for (MRecord row : rows) {
+            if (!row.isExpense) {
+                if (row.quantity * row.sumOfOne > income) {
+                    income = row.quantity * row.sumOfOne;
+                    product = row.itemName;
                 }
             }
         }

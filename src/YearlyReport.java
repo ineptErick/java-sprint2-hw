@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class YearlyReport {
     private final ArrayList<YRecord> rows = new ArrayList<>();
 
-    public YearlyReport(String path){
+    public void getYearlyReport(String path){
         String content = readFileContentsOrNull(path);
         String[] lines = content.split("\r?\n");
         for(int i=1; i<lines.length; i++ ){
@@ -28,7 +28,15 @@ public class YearlyReport {
         }
     }
 
-    public static void expensesYear(ArrayList<YRecord> rows){
+    // проверка на то, что годовой отчет не пустой
+    public boolean yearIsNotNull(){
+        return !rows.isEmpty();
+    }
+
+    // здесь я сделала переменные rows package-private, get'еры и set'еры не пришлось использовать
+    // потому что при попытке использовать именно их, не поняла как получить переменные в raws (isExpense, amount)
+    // можно ли так делать или на меня грянет кара небесная?
+    public void expensesYear(){
         int expenses = 0;
         for(YRecord row : rows){
             if(row.isExpense){
@@ -38,14 +46,92 @@ public class YearlyReport {
         System.out.println("Расходы за год составили: "+expenses);
     }
 
-    public static void incomesYear(ArrayList<YRecord> rows){
+    // расходы за первый месяц в годовом отчете
+    public int expensesYearMonth1(){
+        int expensesMonth1 = 0;
+        for (YRecord row : rows){
+            if(row.isExpense) {
+                if (row.getMonth() == 01) {
+                    expensesMonth1 += row.amount;
+                }
+            }
+        }
+        return expensesMonth1;
+    }
+
+    // расходы за второй месяц в годовом отчете
+    public int expensesYearMonth2(){
+        int expensesMonth2 = 0;
+        for (YRecord row : rows){
+            if(row.isExpense) {
+                if (row.getMonth() == 02) {
+                    expensesMonth2 += row.amount;
+                }
+            }
+        }
+        return expensesMonth2;
+    }
+
+    // расходы за третий месяц в годовом отчете
+    public int expensesYearMonth3(){
+        int expensesMonth3 = 0;
+        for (YRecord row : rows){
+            if(row.isExpense) {
+                if (row.getMonth() == 03) {
+                    expensesMonth3 += row.amount;
+                }
+            }
+        }
+        return expensesMonth3;
+    }
+
+    // доход за год
+    public int incomesYear(){
         int incomes = 0;
         for(YRecord row : rows){
             if(!row.isExpense){
                 incomes += row.amount;
             }
         }
-        System.out.println("Расходы за год составили: "+incomes);
+        return incomes;
+    }
+
+    // доход за 1 месяц согласно годовому отчету
+    public int incomesYearMonth1(){
+        int incomesMonth1 = 0;
+        for(YRecord row : rows){
+            if(!row.isExpense){
+                if(row.getMonth() == 03) {
+                    incomesMonth1 += row.amount;
+                }
+            }
+        }
+        return incomesMonth1;
+    }
+
+    // доход за 2 месяц согласно годовому отчету
+    public int incomesYearMonth2(){
+        int incomesMonth2 = 0;
+        for(YRecord row : rows){
+            if(!row.isExpense){
+                if(row.getMonth() == 03) {
+                    incomesMonth2 += row.amount;
+                }
+            }
+        }
+        return incomesMonth2;
+    }
+    // доход за 3 месяц согласно годовому отчету
+    public int incomesYearMonth3(){
+        int incomesMonth3 = 0;
+        for(YRecord row : rows){
+            if(!row.isExpense){
+                if(row.getMonth() == 03) {
+                    incomesMonth3 += row.amount;
+                }
+            }
+        }
+        return incomesMonth3;
     }
 
     public int maxExpense(){
@@ -85,9 +171,9 @@ public class YearlyReport {
         return overage;
     }
 
-    public static void printYear(ArrayList<YRecord> rows) {
+    public void printYear(int year) {
         System.out.println("Информация о годовом отчёте: ");
-        System.out.println("Год: 2021");
+        System.out.println("Год: "+year);
 
         int expenses = 0;
         for (YRecord y : rows) {
