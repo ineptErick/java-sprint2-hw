@@ -1,7 +1,7 @@
 public class YRecord {
     private int month;
-    private int amount;
-    private boolean isExpense;
+    int amount;
+    boolean isExpense;
 
     YRecord(int month, int amount, boolean isExpense) {
         this.setMonth(month);
