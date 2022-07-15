@@ -1,6 +1,11 @@
 import java.util.Scanner;
 public class Main {
 
+    // пофиксила прошлые моменты, огромная благодарность за терпение к наиглупейшим ошибкам
+    // в классах MRecord и YRcord, а также по всей программе использовала геттеры и сеттеры
+    // но теперь методы обработки расчетов работают вхолостую и выдают пустую информацию, игнорируя загруженные отчеты
+    // молю о помощи, очень долго перебираю возможные варианты, но ничего не меняет ситуацию
+
     public static void main(String[] args) {
         Scanner user = new Scanner(System.in);
         final int exit = 666;
@@ -19,6 +24,7 @@ public class Main {
 
             if (userInput == 1) { // Считать все месячные отчёты
                 mreport1.getMonthlyReport("resources/m.202101.csv");
+
                 if(true){
                     System.out.println("Отчет за Январь считан.");
                 }else{
