@@ -30,17 +30,17 @@ public class MonthlyReport {
         }
     }
 
-    // проверка, что месячный отчет не пустой
-    public boolean monthIsNotNull() {
-        return !rows.isEmpty();
+    // проверка, что месячный пустой
+    public boolean monthIsNull() {
+        return rows.isEmpty();
     }
 
     // расходы за месяц
     public int expensesMonth() {
         int expensesMonth = 0;
         for (MRecord row : rows) {
-                if (row.isExpense) {
-                    expensesMonth = (row.sumOfOne*row.quantity);
+                if (row.getIsExpense()) {
+                    expensesMonth += (row.getSumOfOne()*row.getQuantity());
                 }
         }
         return expensesMonth;
@@ -50,8 +50,8 @@ public class MonthlyReport {
     public int incomesMonth(){
         int incomesMonth = 0;
             for(MRecord row : rows){
-                if(!row.isExpense){
-                    incomesMonth = (row.sumOfOne*row.quantity);
+                if(!row.getIsExpense()){
+                    incomesMonth += (row.getSumOfOne()*row.getQuantity());
                 }
             }
             return incomesMonth;
@@ -78,10 +78,10 @@ public class MonthlyReport {
         int max = 0;
         String maxName = "";
         for(MRecord row : rows){
-            if(row.isExpense){
-                if((row.sumOfOne*row.quantity)>max){
-                    max = (row.sumOfOne*row.quantity);
-                    maxName = row.itemName;
+            if(row.getIsExpense()){
+                if((row.getSumOfOne()*row.getQuantity())>max){
+                    max = (row.getSumOfOne()*row.getQuantity());
+                    maxName = row.getItemName();
                 }
             }
         }
@@ -93,10 +93,10 @@ public class MonthlyReport {
         int min = 0;
         String minName = "";
         for(MRecord row : rows){
-            if(row.isExpense){
-                if((row.sumOfOne*row.quantity)<min){
-                    min = (row.sumOfOne*row.quantity);
-                    minName = row.itemName;
+            if(row.getIsExpense()){
+                if((row.getSumOfOne()*row.getQuantity())<min){
+                    min = (row.getSumOfOne()*row.getQuantity());
+                    minName = row.getItemName();
                 }
             }
         }
@@ -110,8 +110,8 @@ public class MonthlyReport {
 
         for(int i=0; i<rows.size(); i++){
             for(MRecord row : rows){
-                if(row.isExpense){
-                    overage = overage + (row.sumOfOne*row.quantity);
+                if(row.getIsExpense()){
+                    overage = overage + (row.getSumOfOne()*row.getQuantity());
                     div++;
                 }
             }
@@ -124,13 +124,13 @@ public class MonthlyReport {
     public void printMonth() {
 
         int income = 0;
-        String product = "";
+        String incProduct = "";
 
-        for (MRecord row : rows) {
-            if (!row.isExpense) {
-                if (row.quantity * row.sumOfOne > income) {
-                    income = row.quantity * row.sumOfOne;
-                    product = row.itemName;
+        for (MRecord rowInc : rows) {
+            if (!rowInc.getIsExpense()) {
+                if (rowInc.getQuantity() * rowInc.getSumOfOne() > income) {
+                    income = rowInc.getQuantity() * rowInc.getSumOfOne();
+                    incProduct = rowInc.getItemName();
                 }
             }
         }
@@ -138,15 +138,15 @@ public class MonthlyReport {
         int expense = 0;
         String expProduct = "";
 
-        for (MRecord m : rows) {
-            if (m.isExpense) {
-                if (m.quantity * m.sumOfOne > expense) {
-                    expense = m.quantity * m.sumOfOne;
-                    expProduct = m.itemName;
+        for (MRecord rowExp : rows) {
+            if (rowExp.getIsExpense()) {
+                if (rowExp.getQuantity() * rowExp.getSumOfOne() > expense) {
+                    expense = rowExp.getQuantity() * rowExp.getSumOfOne();
+                    expProduct = rowExp.getItemName();
                 }
             }
 
-            System.out.println("Самый прибыльный товар: " + product + ". Стоимость: " + income);
+            System.out.println("Самый прибыльный товар: " + incProduct + ". Стоимость: " + income);
             System.out.println("Самая большая трата: " + expProduct + ". Стоимость: " + expense);
 
         }

@@ -2,7 +2,8 @@ public class ComparingReports {
 
     public void compareReports(MonthlyReport monthlyReport1, MonthlyReport monthlyReport2, MonthlyReport monthlyReport3, YearlyReport yearlyReport){
 
-        if(monthlyReport1.monthIsNotNull() && monthlyReport2.monthIsNotNull() && monthlyReport3.monthIsNotNull() && yearlyReport.yearIsNotNull()){
+        if(!(monthlyReport1.monthIsNull()) && !(monthlyReport2.monthIsNull()) &&
+                !(monthlyReport3.monthIsNull()) && !(yearlyReport.yearIsNull())){
 
             if((monthlyReport1.expensesMonth() == yearlyReport.expensesYearMonth1())
                     && (monthlyReport1.incomesMonth() == yearlyReport.incomesYearMonth1())){

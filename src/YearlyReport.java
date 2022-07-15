@@ -28,31 +28,29 @@ public class YearlyReport {
         }
     }
 
-    // проверка на то, что годовой отчет не пустой
-    public boolean yearIsNotNull(){
-        return !rows.isEmpty();
+    // проверка на то, что годовой отчет пустой
+    public boolean yearIsNull(){
+        return rows.isEmpty();
     }
 
-    // здесь я сделала переменные rows package-private, get'еры и set'еры не пришлось использовать
-    // потому что при попытке использовать именно их, не поняла как получить переменные в raws (isExpense, amount)
-    // можно ли так делать или на меня грянет кара небесная?
-    public void expensesYear(){
+    // расходы за год
+    public int expensesYear(){
         int expenses = 0;
         for(YRecord row : rows){
-            if(row.isExpense){
-                expenses += row.amount;
+            if(row.getIsExpense()){
+                expenses += row.getAmount();
             }
         }
-        System.out.println("Расходы за год составили: "+expenses);
+        return expenses;
     }
 
     // расходы за первый месяц в годовом отчете
     public int expensesYearMonth1(){
         int expensesMonth1 = 0;
         for (YRecord row : rows){
-            if(row.isExpense) {
+            if(row.getIsExpense()) {
                 if (row.getMonth() == 01) {
-                    expensesMonth1 += row.amount;
+                    expensesMonth1 += row.getAmount();
                 }
             }
         }
@@ -63,9 +61,9 @@ public class YearlyReport {
     public int expensesYearMonth2(){
         int expensesMonth2 = 0;
         for (YRecord row : rows){
-            if(row.isExpense) {
+            if(row.getIsExpense()) {
                 if (row.getMonth() == 02) {
-                    expensesMonth2 += row.amount;
+                    expensesMonth2 += row.getAmount();
                 }
             }
         }
@@ -76,9 +74,9 @@ public class YearlyReport {
     public int expensesYearMonth3(){
         int expensesMonth3 = 0;
         for (YRecord row : rows){
-            if(row.isExpense) {
+            if(row.getIsExpense()) {
                 if (row.getMonth() == 03) {
-                    expensesMonth3 += row.amount;
+                    expensesMonth3 += row.getAmount();
                 }
             }
         }
@@ -89,8 +87,8 @@ public class YearlyReport {
     public int incomesYear(){
         int incomes = 0;
         for(YRecord row : rows){
-            if(!row.isExpense){
-                incomes += row.amount;
+            if(!row.getIsExpense()){
+                incomes += row.getAmount();
             }
         }
         return incomes;
@@ -100,9 +98,9 @@ public class YearlyReport {
     public int incomesYearMonth1(){
         int incomesMonth1 = 0;
         for(YRecord row : rows){
-            if(!row.isExpense){
+            if(!row.getIsExpense()){
                 if(row.getMonth() == 03) {
-                    incomesMonth1 += row.amount;
+                    incomesMonth1 += row.getAmount();
                 }
             }
         }
@@ -113,9 +111,9 @@ public class YearlyReport {
     public int incomesYearMonth2(){
         int incomesMonth2 = 0;
         for(YRecord row : rows){
-            if(!row.isExpense){
+            if(!row.getIsExpense()){
                 if(row.getMonth() == 03) {
-                    incomesMonth2 += row.amount;
+                    incomesMonth2 += row.getAmount();
                 }
             }
         }
@@ -125,9 +123,9 @@ public class YearlyReport {
     public int incomesYearMonth3(){
         int incomesMonth3 = 0;
         for(YRecord row : rows){
-            if(!row.isExpense){
+            if(!row.getIsExpense()){
                 if(row.getMonth() == 03) {
-                    incomesMonth3 += row.amount;
+                    incomesMonth3 += row.getAmount();
                 }
             }
         }
@@ -137,9 +135,9 @@ public class YearlyReport {
     public int maxExpense(){
         int max = 0;
         for(YRecord row : rows){
-            if(row.isExpense){
-                if(row.amount > max){
-                    max = row.amount;
+            if(row.getIsExpense()){
+                if(row.getAmount() > max){
+                    max = row.getAmount();
                 }
             }
         }
@@ -149,9 +147,9 @@ public class YearlyReport {
     public int minExpense(){
         int min = 0;
         for(YRecord row : rows){
-            if(row.isExpense){
-                if(row.amount > min){
-                    min = row.amount;
+            if(row.getIsExpense()){
+                if(row.getAmount() > min){
+                    min = row.getAmount();
                 }
             }
         }
@@ -162,8 +160,8 @@ public class YearlyReport {
         int overage = 0;
         for(int i=0; i<rows.size(); i++){
             for(YRecord row : rows){
-                if(row.isExpense){
-                    overage = overage + row.amount;
+                if(row.getIsExpense()){
+                    overage = overage + row.getAmount();
                 }
             }
             overage = overage/i;
@@ -176,18 +174,18 @@ public class YearlyReport {
         System.out.println("Год: "+year);
 
         int expenses = 0;
-        for (YRecord y : rows) {
-            if (y.isExpense) {
-                expenses +=  y.amount;
+        for (YRecord yearExpRow : rows) {
+            if (yearExpRow.getIsExpense()) {
+                expenses +=  yearExpRow.getAmount();
             }
         }
         int averageExpenses = expenses / 3;
         System.out.println("");
 
         int income = 0;
-        for (YRecord u : rows) {
-            if (!u.isExpense) {
-                income +=  u.amount;
+        for (YRecord yearIncRow : rows) {
+            if (!yearIncRow.getIsExpense()) {
+                income +=  yearIncRow.getAmount();
             }
         }
         int averageIncome = income / 3;

@@ -1,7 +1,7 @@
 import java.util.Scanner;
 public class Main {
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         Scanner user = new Scanner(System.in);
         final int exit = 666;
         int year = 2021;
@@ -18,7 +18,7 @@ public class Main {
             int userInput = user.nextInt();
 
             if (userInput == 1) { // Считать все месячные отчёты
-                mreport1.getMonthlyReport("src/m.202101.csv");
+                mreport1.getMonthlyReport("resources/m.202101.csv");
                 if(true){
                     System.out.println("Отчет за Январь считан.");
                 }else{
@@ -26,7 +26,7 @@ public class Main {
                     menu();
                 }
 
-                mreport2.getMonthlyReport("src/m.202102.csv");
+                mreport2.getMonthlyReport("resources/m.202102.csv");
                 if(true){
                     System.out.println("Отчет за Февраль считан.");
                 }else{
@@ -34,7 +34,7 @@ public class Main {
                     menu();
                 }
 
-                mreport3.getMonthlyReport("src/m.202103.csv");
+                mreport3.getMonthlyReport("resources/m.202103.csv");
                 if(true){
                     System.out.println("Отчет за Март считан.");
                 }else{
@@ -48,7 +48,7 @@ public class Main {
 
 
             } else if (userInput == 2) { // Считать годовой отчёт
-                yreport.getYearlyReport("src/y.2021.csv");
+                yreport.getYearlyReport("resources/y.2021.csv");
                 if(true){
                     System.out.println("Годовой отчет считан.");
                 }else{
@@ -73,6 +73,7 @@ public class Main {
 
             } else if (userInput == 666) { // Программа должна завершаться только при вводе оператором специальной последовательности символов.
                 System.out.println("До встречи.");
+                break;
             } else {
                 System.out.println("Нет такого пункта меню.");
                 menu();
@@ -81,7 +82,7 @@ public class Main {
 
     }
 
-    public void menu() {
+    public static void menu() {
         System.out.println("1 - Считать все месячные отчёты");
         System.out.println("2 - Считать годовой отчёт");
         System.out.println("3 - Сверить отчёты");
